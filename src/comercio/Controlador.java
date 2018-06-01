@@ -98,6 +98,10 @@ public class Controlador {
 
 public void cargarVentas(DefaultTableModel modelo){
         try{
+            this.connectar();
+            
+            modelo.setColumnCount(0);
+            modelo.setRowCount(0);
             
             /*
             Crearemos un statement con la sentencia a ejecutar y se lo mandamos
@@ -132,6 +136,11 @@ public void cargarVentas(DefaultTableModel modelo){
 
 public void cargarPrecios(DefaultTableModel modelo){
         try{
+            
+            this.connectar();
+            
+            modelo.setColumnCount(0);
+            modelo.setRowCount(0);
             
             /*
             Crearemos un statement con la sentencia a ejecutar y se lo mandamos
