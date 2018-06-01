@@ -2,15 +2,19 @@ package comercio;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Controlador {
     String url = "BaseComercio.db";
     Connection c = null;
-    
+    Statement stmt,s1,s2,s3 = null;
+    ResultSet rs1,rs2,rs3;
     
     /*
     Metodo conectar que nos permitira conectarnos a la base
@@ -34,6 +38,128 @@ public class Controlador {
         } catch (SQLException ex) {
             Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    /*
+    Metodos de carga:
+    Los 3 siguientes metodos cargaran los datos de la tabla en una jTable
+    El primero cargará los productos
+    El segundo cargará las ventas
+    El tercero cargará los precios
+    */
+    public void cargarProductos(DefaultTableModel modelo){
+        
+        /*
+        Nos conectamos a la base, por si ocurriese algun error y 
+        nos hubiesemos desconectado previamente
+        */
+        
+        this.connectar();
+        
+        /*
+        Reseteamos las filas y las columnas de la tabla a 0
+        */
+        
+        modelo.setColumnCount(0);
+        modelo.setRowCount(0);
+        
+
+        try{
+            
+            /*
+            Crearemos un statement con la sentencia a ejecutar y se lo mandamos
+            al ResultSet con un executeQuery
+            */
+            
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from Producto");
+            
+            /*
+            Mediante el DefaultTableModel añadimos las columnas a la tabla
+            con los valores que recibirá de la base
+            */
+            
+            modelo.addColumn("Ref Producto");
+            modelo.addColumn("Nombre Producto");
+            modelo.addColumn("Ref Precio");
+            
+            /*
+            Llenamos la tabla con los objetos de la base
+            */
+            while(rs.next()){
+                modelo.addRow(new Object[]{rs.getString(1), rs.getString(2), rs.getString(3)});
+            }
+            
+        }catch(SQLException ex){
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.desconectar();
+    }
+
+public void cargarVentas(DefaultTableModel modelo){
+        try{
+            
+            /*
+            Crearemos un statement con la sentencia a ejecutar y se lo mandamos
+            al ResultSet con un executeQuery
+            */
+            
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from Producto");
+            
+            /*
+            Mediante el DefaultTableModel añadimos las columnas a la tabla
+            con los valores que recibirá de la base
+            */
+            
+            modelo.addColumn("Ref Producto");
+            modelo.addColumn("Nota");
+            modelo.addColumn("Referencia");
+            
+            /*
+            Llenamos la tabla con los objetos de la base
+            */
+            
+            while(rs.next()){
+                modelo.addRow(new Object[]{rs.getString(1), rs.getString(2), rs.getString(3)});
+            }
+            
+        }catch(SQLException ex){
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.desconectar();
+    }
+
+public void cargarPrecios(DefaultTableModel modelo){
+        try{
+            
+            /*
+            Crearemos un statement con la sentencia a ejecutar y se lo mandamos
+            al ResultSet con un executeQuery
+            */
+            
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from Producto");
+            
+            /*
+            Mediante el DefaultTableModel añadimos las columnas a la tabla
+            con los valores que recibirá de la base
+            */
+            
+            modelo.addColumn("Ref Precio");
+            modelo.addColumn("Precio");
+            
+            /*
+            Llenamos la tabla con los objetos de la base
+            */
+            while(rs.next()){
+                modelo.addRow(new Object[]{rs.getString(1), rs.getString(2), rs.getString(3)});
+            }
+            
+        }catch(SQLException ex){
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.desconectar();
     }
 }
 
