@@ -161,5 +161,61 @@ public void cargarPrecios(DefaultTableModel modelo){
         }
         this.desconectar();
     }
+
+public void imprimirTicket(DefaultTableModel modelo, String lista){
+        /*
+        Nos conectamos a la base, por si nos hubiesemos desconectado
+        previamente
+        */
+            this.connectar();
+            
+            /*
+            Reseteamos las columnas
+            */
+            
+            modelo.setColumnCount(0);
+            modelo.setRowCount(0);
+            
+          try {  
+            
+            /*
+            Creamos los statement
+            */
+            
+            s1 = c.createStatement();
+            s2 = c.createStatement();
+            s3 = c.createStatement();
+            
+            /*
+            Ejecutamos los statement
+            */
+            
+            rs1 = s1.executeQuery("select * from Ventas where nVenta= " + lista + "");
+            rs2 = s2.executeQuery("select * from ReferenciaProducto where refProducto in(select refProducto from Ventas where nVenta= " + lista + ")");
+            rs3 = s3.executeQuery("select * from Precio where refPrecio in(select refPrecio from ReferenciaProducto where refProducto in(select refProducto from Ventas where nVenta= " + lista + "))");
+            int Cantidad = rs1.getInt(3);
+            int Pt = rs3.getInt(2);
+            int PrecioTotal = Cantidad * Pt;
+            
+            /*
+            Añadimos las columnas a la tabla
+            */
+            
+            modelo.addColumn("NumVenta");
+            modelo.addColumn("Nombre Producto");
+            modelo.addColumn("Precio");
+            
+            /*
+            Llenamos la tabla
+            */
+            
+            while (rs1.next()) {
+                modelo.addRow(new Object[]{rs1.getInt(2), rs2.getString(2), PrecioTotal});
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
 
