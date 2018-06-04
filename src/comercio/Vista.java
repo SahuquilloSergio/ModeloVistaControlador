@@ -1,21 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package comercio;
 
-/**
- *
- * @author serxa
- */
+import javax.swing.table.DefaultTableModel;
+
 public class Vista extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Interfaz
-     */
+    DefaultTableModel modelo = new DefaultTableModel();
+    Controlador Con = new Controlador();
+    
     public Vista() {
         initComponents();
+        modelo = (DefaultTableModel) tabla.getModel();
     }
 
     /**
@@ -28,15 +22,15 @@ public class Vista extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        tabla = new javax.swing.JTable();
+        bCargarPro = new javax.swing.JButton();
+        bCargarVen = new javax.swing.JButton();
+        bCargarPre = new javax.swing.JButton();
+        bCargarTicket = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -47,20 +41,30 @@ public class Vista extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla);
 
-        jButton1.setText("Ver Productos");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bCargarPro.setText("Producto");
+        bCargarPro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bCargarProActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Ver Ventas");
+        bCargarVen.setText("Ventas");
+        bCargarVen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCargarVenActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Ver Precios");
+        bCargarPre.setText("Precio");
+        bCargarPre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCargarPreActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Ticket");
+        bCargarTicket.setText("Ticket");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -71,13 +75,13 @@ public class Vista extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 721, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(bCargarPro)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(bCargarVen)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3)
+                        .addComponent(bCargarPre)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4)))
+                        .addComponent(bCargarTicket)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -85,10 +89,10 @@ public class Vista extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(bCargarPro)
+                    .addComponent(bCargarVen)
+                    .addComponent(bCargarPre)
+                    .addComponent(bCargarTicket))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
@@ -97,9 +101,17 @@ public class Vista extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void bCargarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCargarProActionPerformed
+        Con.cargarProductos(modelo);
+    }//GEN-LAST:event_bCargarProActionPerformed
+
+    private void bCargarVenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCargarVenActionPerformed
+        Con.cargarVentas(modelo);
+    }//GEN-LAST:event_bCargarVenActionPerformed
+
+    private void bCargarPreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCargarPreActionPerformed
+        Con.cargarPrecios(modelo);
+    }//GEN-LAST:event_bCargarPreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,11 +150,11 @@ public class Vista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton bCargarPre;
+    private javax.swing.JButton bCargarPro;
+    private javax.swing.JButton bCargarTicket;
+    private javax.swing.JButton bCargarVen;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }

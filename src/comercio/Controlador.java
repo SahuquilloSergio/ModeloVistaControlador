@@ -12,14 +12,14 @@ import javax.swing.table.DefaultTableModel;
 
 public class Controlador {
     String url = "BaseComercio.db";
-    Connection c = null;
-    Statement stmt,s1,s2,s3 = null;
+    Connection c;
+    Statement stmt,s1,s2,s3;
     ResultSet rs1,rs2,rs3;
     
     /*
     Metodo conectar que nos permitira conectarnos a la base
     */
-    public void connectar(){
+    public void conectar(){
           try {
             c = DriverManager.getConnection("jdbc:sqlite:"+url);
         } catch (SQLException ex) {
@@ -54,7 +54,7 @@ public class Controlador {
         nos hubiesemos desconectado previamente
         */
         
-        this.connectar();
+        this.conectar();
         
         /*
         Reseteamos las filas y las columnas de la tabla a 0
@@ -98,7 +98,7 @@ public class Controlador {
 
 public void cargarVentas(DefaultTableModel modelo){
         try{
-            this.connectar();
+            this.conectar();
             
             modelo.setColumnCount(0);
             modelo.setRowCount(0);
@@ -109,7 +109,7 @@ public void cargarVentas(DefaultTableModel modelo){
             */
             
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from Producto");
+            ResultSet rs = stmt.executeQuery("select * from Ventas");
             
             /*
             Mediante el DefaultTableModel añadimos las columnas a la tabla
@@ -137,7 +137,7 @@ public void cargarVentas(DefaultTableModel modelo){
 public void cargarPrecios(DefaultTableModel modelo){
         try{
             
-            this.connectar();
+            this.conectar();
             
             modelo.setColumnCount(0);
             modelo.setRowCount(0);
@@ -148,7 +148,7 @@ public void cargarPrecios(DefaultTableModel modelo){
             */
             
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from Producto");
+            ResultSet rs = stmt.executeQuery("select * from Precio");
             
             /*
             Mediante el DefaultTableModel añadimos las columnas a la tabla
@@ -162,7 +162,7 @@ public void cargarPrecios(DefaultTableModel modelo){
             Llenamos la tabla con los objetos de la base
             */
             while(rs.next()){
-                modelo.addRow(new Object[]{rs.getString(1), rs.getString(2), rs.getString(3)});
+                modelo.addRow(new Object[]{rs.getString(1), rs.getString(2)});
             }
             
         }catch(SQLException ex){
@@ -170,13 +170,14 @@ public void cargarPrecios(DefaultTableModel modelo){
         }
         this.desconectar();
     }
-
+    
+    
 public void imprimirTicket(DefaultTableModel modelo, String lista){
         /*
         Nos conectamos a la base, por si nos hubiesemos desconectado
         previamente
         */
-            this.connectar();
+            this.conectar();
             
             /*
             Reseteamos las columnas
